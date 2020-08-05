@@ -134,6 +134,11 @@
 			children = (
 				0D4DD27A202AFF61001BAD28 /* AppDelegate.h */,
 				0D4DD27B202AFF61001BAD28 /* AppDelegate.m */,
+				0D4DD27D202AFF61001BAD28 /* Assets.xcassets */,
+				0D4DD2B4202BFD41001BAD28 /* FileCollectionViewItem.h */,
+				0D4DD2B5202BFD41001BAD28 /* FileCollectionViewItem.m */,
+				0D4DD2B6202BFD41001BAD28 /* FileCollectionViewItem.xib */,
+				0D4DD285202AFF61001BAD28 /* FileHash.entitlements */,
 				0D4DD2A7202AFF7E001BAD28 /* FileHash.h */,
 				0D4DD2A8202AFF7E001BAD28 /* FileHash.m */,
 				0D4DD2B9202C02A8001BAD28 /* FileModel.h */,
@@ -141,13 +146,8 @@
 				0D4DD2AF202BE967001BAD28 /* FileWindowController.h */,
 				0D4DD2B0202BE967001BAD28 /* FileWindowController.m */,
 				0D4DD2B1202BE967001BAD28 /* FileWindowController.xib */,
-				0D4DD2B4202BFD41001BAD28 /* FileCollectionViewItem.h */,
-				0D4DD2B5202BFD41001BAD28 /* FileCollectionViewItem.m */,
-				0D4DD2B6202BFD41001BAD28 /* FileCollectionViewItem.xib */,
-				0D4DD27D202AFF61001BAD28 /* Assets.xcassets */,
 				0D4DD282202AFF61001BAD28 /* Info.plist */,
 				0D4DD283202AFF61001BAD28 /* main.m */,
-				0D4DD285202AFF61001BAD28 /* FileHash.entitlements */,
 			);
 			path = MD5GUI;
 			sourceTree = "<group>";

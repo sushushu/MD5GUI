@@ -10,47 +10,42 @@
 #import "FileCollectionViewItem.h"
 #import "FileModel.h"
 #import "FileHash.h"
+#import <Masonry/Masonry.h>
 
 @interface FileWindowController () <NSCollectionViewDelegate,NSCollectionViewDataSource>
 
 @property (weak) IBOutlet NSCollectionView *collectionView;
-
+@property (weak) IBOutlet NSScrollView *scrollView;
 @property (nonatomic,strong) NSMutableArray <FileModel *>*dataArray;
+
 @end
 
-@implementation FileWindowController
 
-- (void)windowDidLoad {
-    [super windowDidLoad];
-    
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
-    [self initViews];
+@implementation FileWindowController {
+    NSArray <NSString *> *_ignoreFilesList;
 }
 
-- (instancetype)initWithWindowNibName:(NSNibName)windowNibName {
-    self = [super initWithWindowNibName:windowNibName];
-    if(self) {
-        
-    }
-    return self;
-}
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    _ignoreFilesList = @[@".app"];
     [self initViews];
+    
 }
+
 - (void)initViews {
+    self.dataArray = [NSMutableArray array];
+
     //kUTTypeFileURL
     [self.collectionView registerForDraggedTypes:@[(NSString*)kUTTypeFileURL]];
     [self.collectionView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:YES];
     [self.collectionView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:NO];
-    
     [self.collectionView registerNib:[[NSNib alloc] initWithNibNamed:@"FileCollectionViewItem" bundle:nil] forItemWithIdentifier:@"FileCollectionViewItem"];
-
-    self.dataArray = [NSMutableArray array];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+//    self.collectionView.layer.borderColor = [NSColor whiteColor].CGColor;
     NSCollectionViewFlowLayout *layout = [[NSCollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(480.0, 120.0);
+    layout.itemSize = CGSizeMake(480.0, 200.0);
     layout.sectionInset = NSEdgeInsetsMake(10, 10, 10, 10);
     layout.minimumLineSpacing = 10;
     layout.minimumInteritemSpacing = 10;
@@ -58,6 +53,21 @@
     
     [self.collectionView reloadData];
 }
+
+- (IBAction)clear:(id)sender {
+    [self.dataArray removeAllObjects];
+    [self.collectionView reloadData];
+}
+
+- (IBAction)changeAll:(NSButton *)sender {
+    if (self.dataArray.count == 0 || self.collectionView == nil) {
+        return;
+    }
+    
+    
+}
+
+/// NSCollectionView
 
 - (NSInteger)numberOfSectionsInCollectionView:(NSCollectionView *)collectionView {
     return 1;
@@ -94,7 +104,7 @@
     return NSDragOperationEvery;
 }
 
-- (void)handleDragInfo:(id<NSDraggingInfo>)draggingInfo{
+- (void)handleDragInfo:(id<NSDraggingInfo>)draggingInfo {
     NSPasteboard* pb = draggingInfo.draggingPasteboard;
     NSMutableArray *uploadUrls = [[NSMutableArray alloc] initWithCapacity:0];
     NSArray *urlItems = [pb pasteboardItems];
@@ -108,6 +118,7 @@
             [uploadUrls addObject:urlString];
         }
     }
+    
     NSArray *urlStringArray = [NSArray array];
     if (uploadUrls.count > 0)
     {
@@ -125,43 +136,104 @@
     }
     [self handleUrlString:urlStringArray];
 }
+
+// 可以处理多个文件或者文件夹
 - (void)handleUrlString:(NSArray *)array {
     if (array.count == 0) {
         return;
     }
-    NSFileManager *manager = [NSFileManager defaultManager];
+    
     for (NSString *url in array) {
-        NSError *error = nil;
         BOOL isDir = NO;
-        BOOL isExist = [manager fileExistsAtPath:url isDirectory:&isDir];
+        BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:url isDirectory:&isDir];
         if (!isExist) {
             [self showAlertWithMessage:@"文件不存在"];
             return;
         }
-        if (isDir) {
-            NSString *string = [NSString stringWithFormat:@"不支持文件夹,%@",url];
-            [self showAlertWithMessage:string];
-            return;
-        }
-        NSDictionary *att = [manager attributesOfItemAtPath:url error:&error];
-        if (error || att == nil) {
-            NSLog(@"%@",error);
-            [self showAlertWithMessage:error.localizedDescription];
-            return;
-        }
-        NSString *fileSize = att[NSFileSize];
-        NSString *name = [[NSURL fileURLWithPath:url] lastPathComponent];
-        FileModel *model = [[FileModel alloc] init];
-        model.filePath = url;
-        model.fileName = name;
-        model.fileSize = fileSize;
-        model.fileHash = [FileHash getFileMD5WithPath:url];
-        model.isFinish = YES;
-        [self.dataArray addObject:model];
+        [self showAllFileWithPath:url];
     }
     
     [self.collectionView reloadData];
 }
+
+//遍历所有文件
+- (void)showAllFileWithPath:(NSString *)path {
+    if (path.length == 0) {
+        return;
+    }
+    
+    // TODO: 跳过隐藏文件、非常规文件，点开头的都是隐藏文件
+    
+    NSFileManager *fileManger = [NSFileManager defaultManager];
+    NSError *error = nil;
+    BOOL isDir = NO; // 判断是否文件夹
+    BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
+    if (isExist) {
+        if (isDir) { // If folder
+            NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:&error];
+            if (error) {
+                NSLog(@"出错");
+                return;
+            }
+            NSString * subPath = @"";
+            for (NSString *str in dirArray) {
+                subPath = [path stringByAppendingPathComponent:str];
+                BOOL issubDir = NO;
+                [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
+                [self showAllFileWithPath:subPath];
+            }
+        }else{ // If file
+            [self _createModelWithPath:path];
+        }
+    }else{
+        NSLog(@"this path is not exist!");
+    }
+}
+
+// 判断是否包含忽略文件,比如xxx.app
+- (BOOL)_isContainsIgnoredFileWithPath:(NSString *)path {
+    __block BOOL ret = NO;
+    if (path.length == 0) {
+        return ret;
+    }
+    [_ignoreFilesList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([path containsString:obj]) {
+            ret = YES;
+            *stop = YES;
+        }
+    }];
+    
+    return ret;
+}
+
+- (void)_createModelWithPath:(NSString *)path {
+    if (path.length <= 0) {
+        return;
+    }
+    
+    NSLog(@" file full path: %@ " , path);
+    NSFileManager * fileManger = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSDictionary *att = [fileManger attributesOfItemAtPath:path error:&error];
+    if (error || att == nil) {
+        NSLog(@"出错 %@",error);
+        [self showAlertWithMessage:error.localizedDescription];
+        return;
+    }
+    NSNumber *fileSize = att[NSFileSize];
+    NSString *name = [[NSURL fileURLWithPath:path] lastPathComponent];
+    FileModel *model = [[FileModel alloc] init];
+    model.filePath = path;
+    model.fileName = name;
+    model.fileSize = fileSize;
+    model.fileHash = [FileHash getFileMD5WithPath:path];
+    model.isFinish = YES;
+    [self.dataArray addObject:model];
+    [self.collectionView reloadData];
+}
+
+
+
 
 - (void)showAlertWithMessage:(NSString *)msg {
     NSAlert *alert = [NSAlert new];
@@ -177,4 +249,7 @@
         }
     }];
 }
+
+
+
 @end
