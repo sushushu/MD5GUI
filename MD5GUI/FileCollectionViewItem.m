@@ -7,7 +7,13 @@
 //
 
 #import "FileCollectionViewItem.h"
-#import <Masonry/Masonry.h>
+//#import <Masonry/Masonry.h>
+#import "FileHash.h"
+#import "MBProgressHUD.h"
+#import "CMDHelper.h"
+
+#define MB_AUTORELEASE(exp) exp
+
 
 @interface FileCollectionViewItem ()
 
@@ -24,7 +30,9 @@
 @property (nonatomic,strong) FileModel *model;
 @end
 
-@implementation FileCollectionViewItem
+@implementation FileCollectionViewItem {
+    MBProgressHUD *HUD;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -36,68 +44,37 @@
     self.filePathLabel.layer.borderColor = NSColor.lightGrayColor.CGColor;
 }
 
+- (IBAction)openFile:(NSButton *)sender {
+    if (!self.model) {
+        return;
+    }
+    
+    // TODO: open 打开文件的时候，路径中不能有空格
+    [CMDHelper executeCMDStr:[NSString stringWithFormat:@"open %@",self.model.filePath]];
+}
 
 - (IBAction)change:(NSButton *)sender {
     if (!self.model) {
         return;
     }
     
-    self.fileMD5Label.textColor = [NSColor redColor];
-    
-    NSString *cmd = [self way1_ComposeCMDStrWithPath:self.model.filePath];
-    NSLog(@" %@" , cmd);
-    NSLog(@" %@" , [self _executeCMDStr:cmd]);
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    [HUD showWhileExecuting:@selector(task) onTarget:self withObject:nil animated:YES];
 }
 
-/// 方案一：插入1-10  、echo -e -n "\x00" >> AppDelegate.h
-- (NSString *)way1_ComposeCMDStrWithPath:(nonnull NSString *)path {
-    int x = arc4random() % 11;
-    NSString *cmd = [NSString stringWithFormat:@"echo -e -n \"\\x%d\" >> %@", x , path];
-    return cmd;
-}
-
-/// 方案二：插入各种格式符
-- (NSString *)way2_ComposeCMDStrWithPath:(nonnull NSString *)path {
-    NSArray *sets = @[@"n", @"r", @"0"];
+- (void)task {
+    [CMDHelper executeCMDStrForChangeMD5WithPath:self.model.filePath];
     
-    int i = arc4random() % (int)sets.count;
-    NSString *cmd = [NSString stringWithFormat:@"echo -e -n \'\\%@\' >> %@",sets[i], path];
-    return cmd;
+    // 重新计算md5
+    NSString *mewMD5 = [FileHash getFileMD5WithPath:self.model.filePath];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+       self.fileMD5Label.stringValue = mewMD5;
+    });
 }
 
 
-//// 这种调用方式结果是错误的，因为一条命令执行完Task就会销毁，相当于输入完终端关闭，再打开再输出，这时执行第二条语句时第一条语句已经不起作用了
-//[self cmd:@"cd Desktop"];
-//[self cmd:@"mkdir helloWorld"];
-//
-//// 应使用下面这种方式实现
-//[self cmd:@"cd Desktop; mkdir helloWorld"];
-- (NSString *)_executeCMDStr:(NSString *)cmd {
-    if (cmd.length == 0) {
-        return @"not have cmd string";
-    }
-    
-    // 初始化并设置shell路径
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/bash"];
-    
-    // -c 用来执行string-commands（命令字符串），也就说不管后面的字符串里是什么都会被当做shellcode来执行
-    NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
-    [task setArguments:arguments];
-    
-    // 新建输出管道作为Task的输出
-    NSPipe *pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-    
-    // 开始task
-    NSFileHandle *file = [pipe fileHandleForReading];
-    [task launch];
-    
-    // 获取运行结果
-    NSData *data = [file readDataToEndOfFile];
-    NSString *ret = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    return ret;
-}
 
 - (void)configWithModel:(FileModel *)model {
     self.model = model;

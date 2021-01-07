@@ -10,7 +10,9 @@
 #import "FileCollectionViewItem.h"
 #import "FileModel.h"
 #import "FileHash.h"
-#import <Masonry/Masonry.h>
+//#import <Masonry/Masonry.h>
+#import "MBProgressHUD.h"
+#import "CMDHelper.h"
 
 @interface FileWindowController () <NSCollectionViewDelegate,NSCollectionViewDataSource>
 
@@ -18,20 +20,33 @@
 @property (weak) IBOutlet NSScrollView *scrollView;
 @property (nonatomic,strong) NSMutableArray <FileModel *>*dataArray;
 
+@property (weak) IBOutlet NSButton *allButtn;
+@property (weak) IBOutlet NSButton *hButton;
+@property (weak) IBOutlet NSButton *mButton;
+@property (weak) IBOutlet NSButton *swiftButton;
+@property (weak) IBOutlet NSButton *pngButton;
+@property (weak) IBOutlet NSButton *webpButton;
+@property (weak) IBOutlet NSButton *jpgButton;
+@property (weak) IBOutlet NSView *btnsContainerView;
+@property (weak) IBOutlet NSButton *gifButton;
+
 @end
 
 
 @implementation FileWindowController {
     NSArray <NSString *> *_ignoreFilesList;
+    NSArray <NSString *> *_allowFilesList;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
     _ignoreFilesList = @[@".app"];
+    _allowFilesList = @[@"h", @"m", @"swift", @"png"];
+    [self addButtonEvent];
     [self initViews];
-    
 }
+
 
 - (void)initViews {
     self.dataArray = [NSMutableArray array];
@@ -43,7 +58,7 @@
     [self.collectionView registerNib:[[NSNib alloc] initWithNibNamed:@"FileCollectionViewItem" bundle:nil] forItemWithIdentifier:@"FileCollectionViewItem"];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-//    self.collectionView.layer.borderColor = [NSColor whiteColor].CGColor;
+
     NSCollectionViewFlowLayout *layout = [[NSCollectionViewFlowLayout alloc] init];
     layout.itemSize = CGSizeMake(480.0, 200.0);
     layout.sectionInset = NSEdgeInsetsMake(10, 10, 10, 10);
@@ -54,16 +69,45 @@
     [self.collectionView reloadData];
 }
 
+- (void)addButtonEvent {
+    [self.allButtn setTarget:self];
+    [self.allButtn setAction:@selector(test)];
+    
+}
+
 - (IBAction)clear:(id)sender {
     [self.dataArray removeAllObjects];
     [self.collectionView reloadData];
 }
 
+/// 修改当前所有文件的MD5
 - (IBAction)changeAll:(NSButton *)sender {
     if (self.dataArray.count == 0 || self.collectionView == nil) {
         return;
     }
     
+    // TODO: 这里的文件数量通常会很大，要做限制
+//    [self.dataArray enumerateObjectsUsingBlock:^(FileModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        @autoreleasepool {
+//            [CMDHelper executeCMDStrForChangeMD5WithPath:obj.filePath];
+//        }
+//    }];
+    
+    for (FileModel *obj in self.dataArray) {
+        @autoreleasepool {
+            [CMDHelper executeCMDStrForChangeMD5WithPath:obj.filePath];
+        }
+    }
+}
+
+//- (void)filterButtonsClick:(NSButton *)sender {
+//    if (sender != self.allButtn) {
+//        self.allButtn.enabled = NO;
+//    }
+//
+//}
+
+- (IBAction)allClick:(NSButton *)sender {
     
 }
 
@@ -152,7 +196,7 @@
         }
         [self showAllFileWithPath:url];
     }
-    
+
     [self.collectionView reloadData];
 }
 
@@ -212,7 +256,7 @@
     }
     
     NSLog(@" file full path: %@ " , path);
-    NSFileManager * fileManger = [NSFileManager defaultManager];
+    NSFileManager *fileManger = [NSFileManager defaultManager];
     NSError *error = nil;
     NSDictionary *att = [fileManger attributesOfItemAtPath:path error:&error];
     if (error || att == nil) {
@@ -222,6 +266,24 @@
     }
     NSNumber *fileSize = att[NSFileSize];
     NSString *name = [[NSURL fileURLWithPath:path] lastPathComponent];
+    NSArray *compose = [name componentsSeparatedByString:@"."];
+    if (compose.count == 0) {
+        return;
+    }
+    
+    // 检查文件是否在白名单内
+    __block BOOL ret = NO;
+    NSString *fileSuffix = compose.lastObject;
+    [fileSuffix class];
+    [_allowFilesList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isEqualToString:fileSuffix]) {
+            ret = YES;
+        }
+    }];
+    if (!ret) {
+        return;
+    }
+    
     FileModel *model = [[FileModel alloc] init];
     model.filePath = path;
     model.fileName = name;
@@ -231,9 +293,6 @@
     [self.dataArray addObject:model];
     [self.collectionView reloadData];
 }
-
-
-
 
 - (void)showAlertWithMessage:(NSString *)msg {
     NSAlert *alert = [NSAlert new];
@@ -250,6 +309,5 @@
     }];
 }
 
-
-
 @end
+   

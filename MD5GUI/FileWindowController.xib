@@ -8,8 +8,16 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FileWindowController">
             <connections>
+                <outlet property="allButtn" destination="PGO-Jj-NjI" id="CBG-aO-5km"/>
                 <outlet property="collectionView" destination="xhy-iS-86n" id="SiD-ML-Nwv"/>
+                <outlet property="gifButton" destination="YCj-74-lif" id="l0v-ey-YO6"/>
+                <outlet property="hButton" destination="Rhq-wa-ddO" id="CSH-uT-HxF"/>
+                <outlet property="jpgButton" destination="Xzy-ZZ-ky5" id="Gsb-Hk-XhY"/>
+                <outlet property="mButton" destination="1bK-nl-E9h" id="Jur-QE-6Pc"/>
+                <outlet property="pngButton" destination="YCF-jh-hDl" id="I60-YX-hq1"/>
                 <outlet property="scrollView" destination="cw7-4A-GE5" id="yke-bJ-89q"/>
+                <outlet property="swiftButton" destination="55a-O1-Rz8" id="TjL-LE-bck"/>
+                <outlet property="webpButton" destination="dgE-OJ-eTu" id="oux-Kf-vzq"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -18,20 +26,20 @@
         <window title="将文件或者文件夹拖入即可" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+            <rect key="contentRect" x="196" y="240" width="732" height="339"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="732" height="339"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cw7-4A-GE5">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="204"/>
+                        <rect key="frame" x="0.0" y="0.0" width="732" height="239"/>
                         <clipView key="contentView" id="7A5-BT-Fkd">
-                            <rect key="frame" x="1" y="1" width="478" height="202"/>
+                            <rect key="frame" x="1" y="1" width="730" height="237"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <collectionView id="xhy-iS-86n">
-                                    <rect key="frame" x="0.0" y="0.0" width="478" height="202"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="730" height="237"/>
                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="of2-aV-BhG">
                                         <size key="itemSize" width="50" height="50"/>
@@ -41,7 +49,7 @@
                             </subviews>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="J25-Qz-Rmt">
-                            <rect key="frame" x="1" y="144" width="233" height="15"/>
+                            <rect key="frame" x="1" y="187" width="478" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="2fI-H4-0LS">
@@ -50,7 +58,7 @@
                         </scroller>
                     </scrollView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y22-FI-ihx">
-                        <rect key="frame" x="368" y="219" width="100" height="42"/>
+                        <rect key="frame" x="612" y="262" width="100" height="42"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="RQx-7D-t14"/>
                             <constraint firstAttribute="height" constant="40" id="r0B-I6-6xv"/>
@@ -64,12 +72,12 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eYi-20-gKt">
-                        <rect key="frame" x="20" y="219" width="141" height="42"/>
+                        <rect key="frame" x="10" y="262" width="161" height="42"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="YdC-KY-FEc"/>
-                            <constraint firstAttribute="width" constant="141" id="y2H-wT-dTr"/>
+                            <constraint firstAttribute="width" constant="161" id="y2H-wT-dTr"/>
                         </constraints>
-                        <buttonCell key="cell" type="smallSquare" title="修改所有文件的MD5" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" inset="2" id="2N2-DC-iOE">
+                        <buttonCell key="cell" type="smallSquare" title="修改以下所有文件的MD5" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" inset="2" id="2N2-DC-iOE">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -77,22 +85,101 @@
                             <action selector="changeAll:" target="YZM-od-QLV" id="XsP-T2-zsG"/>
                         </connections>
                     </button>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="9lW-It-cBu">
+                        <rect key="frame" x="216" y="247" width="309" height="92"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PGO-Jj-NjI">
+                                <rect key="frame" x="5" y="68" width="102" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="读取所有文件" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="uF0-oM-hsf">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="allClick:" target="-2" id="Fna-om-6mF"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rhq-wa-ddO">
+                                <rect key="frame" x="150" y="68" width="100" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="只读取.h文件" bezelStyle="regularSquare" imagePosition="left" inset="2" id="dp7-3z-D17">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1bK-nl-E9h">
+                                <rect key="frame" x="150" y="48" width="104" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="只读取.m文件" bezelStyle="regularSquare" imagePosition="left" inset="2" id="LYO-6e-5rl">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="55a-O1-Rz8">
+                                <rect key="frame" x="5" y="48" width="122" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="只读取.swift文件" bezelStyle="regularSquare" imagePosition="left" inset="2" id="q3S-uA-GbW">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YCF-jh-hDl">
+                                <rect key="frame" x="5" y="28" width="116" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="只读取.png文件" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ppN-Ts-ajw">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xzy-ZZ-ky5">
+                                <rect key="frame" x="5" y="8" width="111" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="只读取.jpg文件" bezelStyle="regularSquare" imagePosition="left" inset="2" id="j0P-e3-BHJ">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dgE-OJ-eTu">
+                                <rect key="frame" x="150" y="28" width="124" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="只读取.webp文件" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jXD-Rq-pvC">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YCj-74-lif">
+                                <rect key="frame" x="150" y="8" width="108" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="只读取.gif文件" bezelStyle="regularSquare" imagePosition="left" inset="2" id="dpU-sr-qtE">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="92" id="6aq-kN-BUQ"/>
+                            <constraint firstAttribute="width" constant="309" id="zHW-Jj-Adf"/>
+                        </constraints>
+                    </customView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="eYi-20-gKt" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="10" id="08k-YX-aKa"/>
+                    <constraint firstItem="eYi-20-gKt" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="36" id="08k-YX-aKa"/>
                     <constraint firstAttribute="trailing" secondItem="cw7-4A-GE5" secondAttribute="trailing" id="42c-Eb-ocz"/>
-                    <constraint firstAttribute="trailing" secondItem="Y22-FI-ihx" secondAttribute="trailing" constant="12.5" id="M9e-5h-Oxu"/>
+                    <constraint firstAttribute="trailing" secondItem="Y22-FI-ihx" secondAttribute="trailing" constant="20" id="M9e-5h-Oxu"/>
+                    <constraint firstItem="9lW-It-cBu" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="ONH-yG-cCl"/>
                     <constraint firstAttribute="bottom" secondItem="cw7-4A-GE5" secondAttribute="bottom" id="V8A-F7-9kU"/>
-                    <constraint firstItem="Y22-FI-ihx" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="10" id="bpX-FP-1fm"/>
-                    <constraint firstItem="eYi-20-gKt" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" id="dmL-b5-3Xw"/>
+                    <constraint firstItem="9lW-It-cBu" firstAttribute="centerX" secondItem="se5-gp-TjO" secondAttribute="centerX" constant="4.5" id="Wam-WP-4oQ"/>
+                    <constraint firstItem="Y22-FI-ihx" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="36" id="bpX-FP-1fm"/>
+                    <constraint firstItem="eYi-20-gKt" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="10" id="dmL-b5-3Xw"/>
                     <constraint firstItem="cw7-4A-GE5" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="nlG-jS-g6T"/>
-                    <constraint firstItem="cw7-4A-GE5" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="66" id="qZG-2y-aaZ"/>
+                    <constraint firstItem="cw7-4A-GE5" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="100" id="qZG-2y-aaZ"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-250" y="124"/>
+            <point key="canvasLocation" x="-124" y="158.5"/>
         </window>
         <customObject id="YZM-od-QLV" customClass="FileWindowController">
             <connections>
+                <outlet property="btnsContainerView" destination="9lW-It-cBu" id="egX-65-SlR"/>
                 <outlet property="collectionView" destination="xhy-iS-86n" id="gPe-bm-gB2"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="rTA-za-2go"/>
             </connections>

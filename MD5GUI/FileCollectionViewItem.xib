@@ -129,6 +129,21 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="orn-ig-C0G">
+                    <rect key="frame" x="685" y="165" width="60" height="42"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="6wT-GX-z33"/>
+                        <constraint firstAttribute="width" constant="60" id="hXc-I7-0pz"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="jp5-2g-isP"/>
+                    </constraints>
+                    <buttonCell key="cell" type="smallSquare" title="打开" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" inset="2" id="6Dd-iD-3d8">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system" size="12"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="openFile:" target="-2" id="Z2F-oT-lJV"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="jzQ-ls-95g" firstAttribute="height" secondItem="rDq-vV-TRs" secondAttribute="height" id="5Ii-T9-jVo"/>
@@ -138,6 +153,7 @@
                 <constraint firstAttribute="bottom" secondItem="jzQ-ls-95g" secondAttribute="bottom" constant="5" id="Cbh-tZ-Vee"/>
                 <constraint firstItem="1if-Vf-KBM" firstAttribute="leading" secondItem="JDj-Oj-eOe" secondAttribute="trailing" constant="5" id="D00-DP-RrB"/>
                 <constraint firstItem="JDj-Oj-eOe" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="10" id="DZA-t0-Gve"/>
+                <constraint firstItem="QvA-YY-rs5" firstAttribute="leading" secondItem="orn-ig-C0G" secondAttribute="trailing" id="FKx-AN-q8v"/>
                 <constraint firstItem="rDq-vV-TRs" firstAttribute="height" secondItem="JCH-v2-Huc" secondAttribute="height" id="HdB-uF-Uhs"/>
                 <constraint firstItem="JCH-v2-Huc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="10" id="Iwd-CC-5p7"/>
                 <constraint firstAttribute="trailing" secondItem="aZ5-SW-vaA" secondAttribute="trailing" id="K5H-aD-6eW"/>
@@ -146,6 +162,7 @@
                 <constraint firstAttribute="bottom" secondItem="aZ5-SW-vaA" secondAttribute="bottom" id="TVB-WT-Qll"/>
                 <constraint firstItem="w9w-hZ-anl" firstAttribute="height" secondItem="jzQ-ls-95g" secondAttribute="height" id="Ubz-La-mPY"/>
                 <constraint firstAttribute="trailing" secondItem="QvA-YY-rs5" secondAttribute="trailing" id="WTz-5K-BE5"/>
+                <constraint firstItem="orn-ig-C0G" firstAttribute="centerY" secondItem="QvA-YY-rs5" secondAttribute="centerY" id="Wba-v9-ACH"/>
                 <constraint firstItem="JDj-Oj-eOe" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="30" id="d1D-gS-1le"/>
                 <constraint firstItem="VdL-Ti-JZu" firstAttribute="centerY" secondItem="rDq-vV-TRs" secondAttribute="centerY" constant="-5" id="db2-kA-2oK"/>
                 <constraint firstItem="1if-Vf-KBM" firstAttribute="centerY" secondItem="JDj-Oj-eOe" secondAttribute="centerY" id="f0f-4y-ivc"/>
