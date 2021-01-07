@@ -1,0 +1,6 @@
+framework module Pods_MD5GUI {
+  umbrella header "Pods-MD5GUI-umbrella.h"
+
+  export *
+  module * { export * }
+}
